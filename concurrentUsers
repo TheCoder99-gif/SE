@@ -1,0 +1,106 @@
+package MySelenium.MyTesting1;
+
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class users100 {
+
+    public static void main(String[] args) throws InterruptedException {
+
+        WebDriver driver = new ChromeDriver();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+
+        driver.get("https://www.sandbox.qr.alfennzo.com/?qrId=AbwAarzW!4");
+
+        // OPEN SECOND TAB
+        ((JavascriptExecutor) driver).executeScript(
+                "window.open('https://www.sandbox.qr.alfennzo.com/?qrId=AbwAarzW!4', '_blank');"
+        );
+
+        Thread.sleep(1000);
+
+        List<String> tabs = new ArrayList<>(driver.getWindowHandles());
+
+        // TAB 1
+        driver.switchTo().window(tabs.get(0));
+        System.out.println("Running T1");
+        runFlow(driver);
+
+        // TAB 2
+        driver.switchTo().window(tabs.get(1));
+        System.out.println("Running T2");
+        runFlow(driver);
+
+        driver.quit();
+    }
+
+    public static void runFlow(WebDriver driver) throws InterruptedException {
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(40));
+
+        // WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(50));
+     	WebElement addButton = wait.until(ExpectedConditions.elementToBeClickable(
+     	    By.xpath("//body//div//div//div//div[2]//div[2]//div[2]//button[1]")));
+    
+     	//((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", addButton);
+     	addButton.click();
+        
+     
+  	driver.findElement(By.xpath("//body/div[@class='relative']/div[@class='flex flex-col min-h-screen mb-20']/main[@class='flex-grow']/div[3]/div[1]")).click();
+    	
+     	WebElement payButton = wait.until(ExpectedConditions.elementToBeClickable(
+         	    By.xpath("//button[contains(@class,'w-full flex items-center justify-center bg-orange-500 text-white py-3 rounded-lg font-medium text-sm shadow-md hover:bg-orange-600 transition focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2')]")));
+     	
+         	payButton.click();
+     	
+         Thread.sleep(10);
+      
+         WebElement userName = wait.until(ExpectedConditions.elementToBeClickable(
+         	    By.xpath("//input[@id='username']")));
+     	
+         	userName.sendKeys("Harshit");
+         
+         driver.findElement(By.id("phone")).sendKeys("8920297584");
+         System.out.println("This button is working");
+         
+         
+         WebElement payCompButton = wait.until(ExpectedConditions.elementToBeClickable(
+         	    By.xpath("//button[@class='w-full flex items-center justify-center bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white py-3 rounded-lg font-bold text-md shadow-md transition-all duration-200 ease-in-out']")));
+     	
+         	payCompButton.click();
+           
+          wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(               
+         		    By.cssSelector("iframe.razorpay-checkout-frame")));
+          
+          WebElement phoneNumber = wait.until(ExpectedConditions.elementToBeClickable(
+         		    By.xpath("//input[@placeholder='Mobile number']")));
+         
+          phoneNumber.sendKeys("8295895415");
+          
+          driver.switchTo().defaultContent();
+         
+          wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(
+         		    By.cssSelector("iframe.razorpay-checkout-frame")));
+          
+          WebElement upiOption = wait.until(ExpectedConditions.presenceOfElementLocated(
+         		    By.xpath("//div[contains(@data-value,'upi')]")));
+         		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", upiOption);
+         		((JavascriptExecutor) driver).executeScript("arguments[0].click();", upiOption);
+
+     		
+          WebElement UPIid=wait.until(ExpectedConditions.elementToBeClickable(
+         		 By.xpath("//input[contains(@placeholder,'example@okhdfcbank')]")));
+          UPIid.sendKeys("yojepe7229@fantastucom"); 
+          
+          WebElement continueBtn = wait.until(ExpectedConditions.elementToBeClickable(
+         		    By.cssSelector("button[data-testid='bottom-cta-button']")));
+         		continueBtn.click();
+
+          System.out.println("Automation Done Successfully");
+    }
+}
