@@ -1,0 +1,125 @@
+package MySelenium.MyTesting1;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import java.util.random.*;
+public class AmritSir {
+   public static void main(String[]args) throws InterruptedException {
+	   
+	   WebDriver driver = new ChromeDriver();
+	   driver.get("https://www.gyftr.com/");
+
+	   WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+
+	   // 1. Click Log In/ Sign Up to open modal
+	   WebElement loginBtn = wait.until(ExpectedConditions.elementToBeClickable(
+	       By.xpath("//button[.//span[contains(text(),'Log In/ Sign Up')]]")));
+	   loginBtn.click();
+
+	   // 2. Wait for the phone input to be visible and send keys
+	   WebElement phoneInput = wait.until(ExpectedConditions.visibilityOfElementLocated(
+	       By.xpath("//input[@name='mobile']")));  // You can confirm actual input's name or XPath
+	   phoneInput.sendKeys("9311683166");
+ 
+	   WebElement Auth = wait.until(ExpectedConditions.visibilityOfElementLocated(
+		       By.xpath("//input[@id='authAgree']")));  // You can confirm actual input's name or XPath
+		   Auth.click();
+		   
+	   // 3. Click Next
+	   WebElement nextBtn = wait.until(ExpectedConditions.elementToBeClickable(
+	       By.xpath("//button[normalize-space()='Next' and contains(@class, 'btn') and contains(@class, 'btn-light')]"
+)));
+	   nextBtn.click();
+
+	   // 4. Wait for password input and fill it
+	   WebElement passwordInput = wait.until(ExpectedConditions.visibilityOfElementLocated(
+	       By.xpath("//input[@name='password']")));
+	   passwordInput.sendKeys("rikin@2005");
+
+	   WebElement LoginMe = wait.until(ExpectedConditions.visibilityOfElementLocated(
+		       By.xpath("//button[normalize-space()='LOGIN' and contains(@class, 'btn') and contains(@class, 'btn-light')]"
+)));
+		  LoginMe.click();
+	   
+	   // 5. Search for "amazon"
+		  
+		  // Wait for modal to appear
+		
+		  WebElement noThanksBtn = wait.until(ExpectedConditions.elementToBeClickable(By.id("wzrk-cancel")));
+		  noThanksBtn.click();
+
+	        // Continue with rest of your test...
+	    
+
+
+
+	   WebElement searchInput = wait.until(ExpectedConditions.visibilityOfElementLocated(
+	       By.id("mobile-global-search")));
+	   searchInput.sendKeys("amazon");
+
+	   // 6. Click search button
+	   WebElement searchBtn = wait.until(ExpectedConditions.elementToBeClickable(
+	       By.xpath("//button[contains(@class,'btn-dark') and contains(text(),'Search')]")));
+	   searchBtn.click();
+
+	   // 7. Click first Amazon image/button
+	   WebElement amazonImg = wait.until(ExpectedConditions.elementToBeClickable(
+	       By.xpath("//img[@alt='Amazon']")));
+	   amazonImg.click();
+
+	   
+	   
+	   // 8. Scroll and click ADD button (example)
+	   JavascriptExecutor js = (JavascriptExecutor) driver;
+
+	// Scroll down 10 times, fixed increments
+	for (int i = 0; i < 3; i++) {
+	    js.executeScript("window.scrollBy(0, 300);"); // scroll down 300px
+	    Thread.sleep(500); // small pause for lazy loading
+	}
+
+	// After scrolling, find the ADD button and click
+	//WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+	WebElement addBtn = wait.until(ExpectedConditions.elementToBeClickable(
+	        By.xpath("//button[normalize-space()='ADD']")));
+
+	addBtn.click();
+	
+	WebElement Cart = wait.until(ExpectedConditions.elementToBeClickable(
+	        By.xpath("//button[normalize-space()='View / Edit Cart']"
+	        		)));
+
+	Cart.click();
+	
+	for (int i = 0; i < 2; i++) {
+	    js.executeScript("window.scrollBy(0, 300);"); // scroll down 300px
+	    Thread.sleep(500); // small pause for lazy loading
+	}
+	
+	//WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+	//JavascriptExecutor js = (JavascriptExecutor) driver;
+
+	WebElement payBtnUPI = wait.until(ExpectedConditions.elementToBeClickable(
+	        By.xpath("//div[contains(@class,'pay-options')]//div[contains(@class,'row') and .//small[contains(.,'UPI')]]//button[normalize-space()='PAY']"
+	        		)));
+
+	// Scroll into view
+	js.executeScript("arguments[0].scrollIntoView({block:'center'});", payBtnUPI);
+
+	// Click
+	payBtnUPI.click();
+	
+	WebElement qr = wait.until(ExpectedConditions.elementToBeClickable(
+	        By.xpath("//button[normalize-space()='PROCEED']"
+	        			        		)));
+
+	qr.click();
+    
+	
+   
+   }
+}
